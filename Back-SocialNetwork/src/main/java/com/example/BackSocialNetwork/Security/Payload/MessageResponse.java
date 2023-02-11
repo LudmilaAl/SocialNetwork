@@ -9,6 +9,9 @@ public class MessageResponse {
     public MessageResponse() {
     }
 
+    public MessageResponse(String message) {
+        this.message = message;
+    }
     //Getters and Setters
 
     public String getMessage() {

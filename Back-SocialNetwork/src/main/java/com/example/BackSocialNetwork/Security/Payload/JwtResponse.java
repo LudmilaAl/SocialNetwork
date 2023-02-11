@@ -8,6 +8,9 @@ public class JwtResponse {
     public JwtResponse() {
     }
 
+    public JwtResponse(String token) {
+        this.token = token;
+    }
     //Getters and Setters
 
     public String getToken() {

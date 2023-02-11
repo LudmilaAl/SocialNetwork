@@ -7,6 +7,7 @@ public class RegisterRequest {
     private String lastname;
     private String email;
     private String password;
+    private String passwordConfirm;
 
 
     //Constructor
@@ -53,5 +54,13 @@ public class RegisterRequest {
 
     public void setPassword(String password) {
         this.password = password;
+    }
+
+    public String getPasswordConfirm() {
+        return passwordConfirm;
+    }
+
+    public void setPasswordConfirm(String passwordConfirm) {
+        this.passwordConfirm = passwordConfirm;
     }
 }
