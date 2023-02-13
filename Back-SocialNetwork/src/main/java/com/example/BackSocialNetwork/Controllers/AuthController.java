@@ -12,6 +12,7 @@ import org.springframework.security.authentication.UsernamePasswordAuthenticatio
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -35,7 +36,7 @@ public class AuthController {
         this.jwtTokenUtil = jwtTokenUtil;
     }
 
-    @RequestMapping("/login")
+    @PostMapping("/login")
     public ResponseEntity<JwtResponse> login(@RequestBody LoginRequest loginRequest){
         Authentication authentication = authenticationManager.authenticate(
                 new UsernamePasswordAuthenticationToken(loginRequest.getUsername(), loginRequest.getPassword()));
@@ -46,7 +47,7 @@ public class AuthController {
         return ResponseEntity.ok(new JwtResponse(jwt));
     }
 
-    @RequestMapping("/register")
+    @PostMapping("/register")
     public ResponseEntity<String> register(@RequestBody RegisterRequest registerRequest){
         if(userRepository.existsByUsername(registerRequest.getUsername())){
             return ResponseEntity.badRequest().body("Error: Username is already taken");
@@ -56,15 +57,15 @@ public class AuthController {
             return ResponseEntity.badRequest().body("Error: Email is already taken");
         }
 
-        if(!passwordEncoder.matches(registerRequest.getPassword(), registerRequest.getPasswordConfirm())){
+        if(passwordEncoder.matches(registerRequest.getPassword(), registerRequest.getPasswordConfirm())){
             return ResponseEntity.badRequest().body("Passwords do not match");
         }
 
         userRepository.save(new User(registerRequest.getUsername(),
-                                        registerRequest.getName(),
-                                        registerRequest.getLastname(),
-                                        registerRequest.getEmail(),
-                                        passwordEncoder.encode(registerRequest.getPassword())));
+                registerRequest.getName(),
+                registerRequest.getLastname(),
+                registerRequest.getEmail(),
+                passwordEncoder.encode(registerRequest.getPassword())));
 
         return ResponseEntity.ok("User registered successfully");
     }
