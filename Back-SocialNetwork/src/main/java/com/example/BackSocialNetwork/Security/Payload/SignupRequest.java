@@ -1,17 +1,38 @@
 package com.example.BackSocialNetwork.Security.Payload;
 
-public class RegisterRequest {
+import jakarta.validation.constraints.Email;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.Size;
+
+import java.util.Set;
+
+public class SignupRequest {
     //Attributes
+    @NotBlank
+    @Size(min = 3, max = 20)
     private String username;
+    @NotBlank
+    @Size( max = 30)
     private String name;
+    @NotBlank
+    @Size( max = 30)
     private String lastname;
+    @NotBlank
+    @Size(max = 50)
+    @Email
     private String email;
+    @NotBlank
+    @Size(min = 6, max = 40)
     private String password;
+    @NotBlank
+    @Size(min = 6, max = 40)
     private String passwordConfirm;
+
+    private Set<String> role;
 
 
     //Constructor
-    public RegisterRequest() {
+    public SignupRequest() {
     }
 
     //Getters and Setters
@@ -62,5 +83,13 @@ public class RegisterRequest {
 
     public void setPasswordConfirm(String passwordConfirm) {
         this.passwordConfirm = passwordConfirm;
+    }
+
+    public Set<String> getRole() {
+        return role;
+    }
+
+    public void setRole(Set<String> role) {
+        this.role = role;
     }
 }
