@@ -66,9 +66,8 @@ public class AuthController {
         if(userRepository.existsByEmail(signupRequest.getEmail())){
             return ResponseEntity.badRequest().body("Error: Email is already taken");
         }
-
-        if(passwordEncoder.matches(signupRequest.getPassword(), signupRequest.getPasswordConfirm())){
-            return ResponseEntity.badRequest().body("Passwords do not match");
+        if(!signupRequest.getPassword().equals(signupRequest.getPasswordConfirm())){
+            return ResponseEntity.badRequest().body("Error: Passwords do not match");
         }
 
         User user = new User(signupRequest.getUsername(),
