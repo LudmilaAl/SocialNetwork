@@ -1,43 +1,74 @@
 package com.example.BackSocialNetwork.Entities;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
+import jakarta.persistence.*;
+import jakarta.validation.constraints.Email;
+import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.Size;
+
+import java.util.HashSet;
+import java.util.Set;
+
 
 @Entity
+@Table(name = "users")
 public class User {
 
     //Attributes
     @Id
-    @GeneratedValue (strategy = GenerationType.IDENTITY)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    @NotNull
+
+    @NotBlank
+    @Size(max = 20)
     private String username;
-    @NotNull
+
+    @NotBlank
+    @Size(max = 20)
     private String name;
-    @NotNull
+
+    @NotBlank
+    @Size(max = 20)
     private String lastname;
-    @NotNull
+
+    @NotBlank
+    @Size(max = 50)
+    @Email
     private String email;
-    @NotNull
+
+    @NotBlank
+    @Size(max = 120)
     private String password;
 
+    private Integer followers;
+
+    private Integer follows;
+
+    private String picture;
+
+    @ManyToMany(fetch = FetchType.LAZY)
+    @JoinTable(  name = "user_roles",
+            joinColumns = @JoinColumn(name = "user_id"),
+            inverseJoinColumns = @JoinColumn(name = "role_id"))
+    private Set<Role> roles = new HashSet<>();
+
     //Constructors
+
     public User() {
     }
-    public User(Long id, String username, String name, String lastname, String email, String password) {
-        this.id = id;
+
+    public User(String username, String name, String lastname, String email, String password,
+                Integer followers, Integer follows) {
         this.username = username;
         this.name = name;
         this.lastname = lastname;
         this.email = email;
         this.password = password;
+        this.followers = followers;
+        this.follows = follows;
     }
 
     //Getters and Setters
-
     public Long getId() {
         return id;
     }
@@ -52,6 +83,30 @@ public class User {
 
     public void setUsername(String username) {
         this.username = username;
+    }
+
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
+    }
+
+    public String getPassword() {
+        return password;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
+    }
+
+    public Set<Role> getRoles() {
+        return roles;
+    }
+
+    public void setRoles(Set<Role> roles) {
+        this.roles = roles;
     }
 
     public String getName() {
@@ -70,19 +125,19 @@ public class User {
         this.lastname = lastname;
     }
 
-    public String getEmail() {
-        return email;
+    public Integer getFollowers() {
+        return followers;
     }
 
-    public void setEmail(String email) {
-        this.email = email;
+    public void setFollowers(Integer followers) {
+        this.followers = followers;
     }
 
-    public String getPassword() {
-        return password;
+    public Integer getFollows() {
+        return follows;
     }
 
-    public void setPassword(String password) {
-        this.password = password;
+    public void setFollows(Integer follows) {
+        this.follows = follows;
     }
 }
