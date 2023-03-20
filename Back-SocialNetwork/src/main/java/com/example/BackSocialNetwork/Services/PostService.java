@@ -1,6 +1,7 @@
 package com.example.BackSocialNetwork.Services;
 
 import com.example.BackSocialNetwork.Entities.Posts;
+import com.example.BackSocialNetwork.Entities.User;
 import com.example.BackSocialNetwork.Interfaces.PostInterface;
 import com.example.BackSocialNetwork.Repositories.PostRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -26,8 +27,9 @@ public class PostService implements PostInterface {
     }
 
     @Override
-    public List<Posts> getPostsByUserId(Long userId) {
-        return null;
+    public List<Posts> getPostsByUser(User user) {
+        List<Posts> posts = postRepository.findPostByUser(user);
+        return posts;
     }
 
     @Override
@@ -39,10 +41,4 @@ public class PostService implements PostInterface {
     public void deletePost(Long id) {
         postRepository.deleteById(id);
     }
-
-
-
-
-
-
 }
